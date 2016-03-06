@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-autowire="byName">
+
+       <!--<bean id="enSendSmsService" class="com.lawinfo.service.sms.impl.EnSendSmsServiceImpl">
+              <property name="address" value="${en.sms.address}"/>
+              <property name="userid" value="${en.sms.userid}"/>
+              <property name="pwd" value="${en.sms.pwd}"/>
+              <property name="expiretime" value="${en.sms.expire.time}"/>
+       </bean>
+       <bean id="loginService" class="com.lawinfo.service.login.impl.LoginServiceImpl">
+              <property name="maxloginfailcount" value="${max.login.fail.count}"/>
+              <property name="expiretime" value="${en.sms.expire.time}"/>
+              <property name="maxallowrelogintime" value="${max.allow.relogin.time}"/>
+       </bean>-->
+</beans>
