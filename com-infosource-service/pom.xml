@@ -12,27 +12,11 @@
     <dependencies>
         <dependency>
             <groupId>com.infosource</groupId>
-            <artifactId>com-infosource-dao</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.infosource</groupId>
             <artifactId>com-infosource-common</artifactId>
         </dependency>
         <dependency>
             <groupId>com.infosource</groupId>
             <artifactId>com-infosource-soa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
         </dependency>
         <dependency>
             <groupId>org.aspectj</groupId>

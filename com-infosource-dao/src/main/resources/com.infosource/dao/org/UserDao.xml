@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.infosource.dao.org.UserDao">
+    <resultMap id="ResultMap" type="com.infosource.domain.org.User">
+        <id property="id" column="id" />
+        <result column="name" property="name"/>
+        <result column="userid" property="userid"/>
+        <result column="status" property="status"/>
+        <result column="pwd" property="pwd"/>
+        <result column="orgid" property="orgid"/>
+        <result column="loginfailcount" property="loginfailcount"/>
+        <result column="lastlogintime" property="lastlogintime"/>
+        <result column="logintype" property="logintype"/>
+        <result column="lastlogintimestr" property="lastlogintimestr"/>
+        <result column="createtime" property="createtime"/>
+        <result column="createtimestr" property="createtimestr"/>
+        <result column="modifiedtime" property="modifiedtime"/>
+        <result column="modifiedtimestr" property="modifiedtimestr"/>
+        <result column="optuserid" property="optuserid"/>
+        <result column="roleids" property="roleids"/>
+        <result column="orgid" property="orgid"/>
+    </resultMap>
+    <sql id="allColumn">
+         id,orgid,name,userid,status,pwd,logintype,lastlogintime,lastlogintimestr,loginfailcount,createtime,createtimestr,modifiedtime,modifiedtimestr,optuserid
+    </sql>
+    <sql id="condition">
+        <trim prefix="WHERE" prefixOverrides="AND|OR">
+            <if test="id>0">
+                id = #{id}
+            </if>
+            <if test="status!=null">
+                and status = #{status}
+            </if>
+            <if test="userid!=null">
+                and userid = #{userid}
+            </if>
+            <if test="orgid!=null">
+                and orgid = #{orgid}
+            </if>
+            <if test="name!=null">
+                and name = #{name}
+            </if>
+        </trim>
+        <!--<where>
+            <if test="id>0">
+                ID = #id#
+            </if>
+            <if test="type>0">
+                AND TYPE = #type#
+            </if>
+        </where>-->
+    </sql>
+    <sql id="page">
+          limit #{startRow},#{pageSize}
+    </sql>
+    <sql id="orderby">
+        order by id asc
+    </sql>
+    <select id="findAll" parameterType="com.infosource.domain.org.query.UserQuery"  resultMap="ResultMap">
+        select
+        <include refid="allColumn"/>
+         from
+          User
+        <include refid="orderby"/>
+    </select>
+    <select id="findById" parameterType="long"  resultMap="ResultMap">
+        select
+        <include refid="allColumn"/>
+        from
+        User where id = #{id}
+    </select>
+    <select id="findByUserid" parameterType="String"  resultMap="ResultMap">
+        select
+        <include refid="allColumn"/>
+        from
+        User where userid = #{userid}
+    </select>
+    <select id="findList" parameterType="com.infosource.domain.org.query.UserQuery"  resultMap="ResultMap">
+        select
+        <include refid="allColumn"/>
+        from
+        User
+        <include refid="condition"/>
+        <include refid="orderby"/>
+    </select>
+    <select id="findListByPage" parameterType="com.infosource.domain.org.query.UserQuery"  resultMap="ResultMap">
+        select
+        <include refid="allColumn"/>
+        from
+        User
+        <include refid="condition"/>
+        <include refid="orderby"/>
+        <include refid="page"/>
+    </select>
+    <select id="count" parameterType="com.infosource.domain.org.query.UserQuery" resultType="int">
+        SELECT
+        COUNT(1)
+        FROM
+        User
+        <include refid="condition"/>
+    </select>
+    <insert id="save" parameterType="com.infosource.domain.org.User">
+        insert into User(logintype,orgid,name,userid,status,pwd,lastlogintime,lastlogintimestr,loginfailcount,createtime,createtimestr,modifiedtime,modifiedtimestr,optuserid)
+        values(#{logintype},#{orgid},#{name},#{userid},#{status},#{pwd},#{lastlogintime},#{lastlogintimestr},#{loginfailcount},#{createtime},#{createtimestr},#{modifiedtime},#{modifiedtimestr},#{optuserid})
+    </insert>
+    <delete id="deleteById" parameterType="long">    <!-- 删除用户 -->
+        delete from User where id=#{id}
+    </delete>
+    <update id="updateLoginStatus" parameterType="com.infosource.domain.org.User">
+        update user set loginfailcount=#{loginfailcount},lastlogintime=#{lastlogintime},lastlogintimestr=#{lastlogintimestr} where userid=#{userid}
+    </update>
+    <update id="update" parameterType="com.infosource.domain.org.User">
+        update user set name=#{name},orgid=#{orgid},logintype=#{logintype} where id=#{id}
+    </update>
+</mapper>

@@ -14,6 +14,7 @@
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
+                <value>classpath:important.properties</value>
                 <value>classpath:common.properties</value>
             </list>
         </property>

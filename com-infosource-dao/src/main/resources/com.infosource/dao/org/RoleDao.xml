@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.infosource.dao.org.RoleDao">
+    <resultMap id="ResultMap" type="com.infosource.domain.org.Role">
+        <id property="id" column="id" />
+        <result column="name" property="name"/>
+        <result column="roletag" property="roletag"/>
+        <result column="createtime" property="createtime"/>
+        <result column="createtimestr" property="createtimestr"/>
+        <result column="modifiedtime" property="modifiedtime"/>
+        <result column="modifiedtimestr" property="modifiedtimestr"/>
+        <result column="optuserid" property="optuserid"/>
+    </resultMap>
+    <sql id="allColumn">
+         id,name,roletag,createtime,createtimestr,modifiedtime,modifiedtimestr,optuserid
+    </sql>
+    <sql id="condition">
+        <trim prefix="WHERE" prefixOverrides="AND|OR">
+            <if test="id>0">
+                id = #{id}
+            </if>
+            <if test="name!=null and name!=''">
+                and name = #{name}
+            </if>
+        </trim>
+        <!--<where>
+            <if test="id>0">
+                ID = #id#
+            </if>
+            <if test="type>0">
+                AND TYPE = #type#
+            </if>
+        </where>-->
+    </sql>
+    <sql id="page">
+          limit #{startRow},#{pageSize}
+    </sql>
+    <sql id="orderby">
+        order by id asc
+    </sql>
+    <select id="findAll" parameterType="com.infosource.domain.org.query.RoleQuery"  resultMap="ResultMap">
+        select
+        <include refid="allColumn"/>
+         from
+          role
+        <include refid="orderby"/>
+    </select>
+    <select id="findById" parameterType="long"  resultMap="ResultMap">
+        select
+        <include refid="allColumn"/>
+        from
+        role where id = #{id}
+    </select>
+    <select id="findList" parameterType="com.infosource.domain.org.query.RoleQuery"  resultMap="ResultMap">
+        select
+        <include refid="allColumn"/>
+        from
+        role
+        <include refid="condition"/>
+        <include refid="orderby"/>
+    </select>
+    <select id="findListByPage" parameterType="com.infosource.domain.org.query.RoleQuery"  resultMap="ResultMap">
+        select
+        <include refid="allColumn"/>
+        from
+        role
+        <include refid="condition"/>
+        <include refid="orderby"/>
+        <include refid="page"/>
+    </select>
+    <select id="count" parameterType="com.infosource.domain.org.query.RoleQuery" resultType="int">
+        SELECT
+        COUNT(1)
+        FROM
+        role
+        <include refid="condition"/>
+    </select>
+    <insert id="save" useGeneratedKeys="true" keyProperty="id" parameterType="com.infosource.domain.org.Role">
+        insert into role(name,roletag,createtime,createtimestr,modifiedtime,modifiedtimestr,optuserid) values(#{name},#{roletag},#{createtime},#{createtimestr},#{modifiedtime},#{modifiedtimestr},#{optuserid})
+    </insert>
+    <delete id="deleteById" parameterType="long">    <!-- 删除用户 -->
+        delete from role where id=#{id}
+    </delete>
+    <update id="update" parameterType="com.infosource.domain.org.Role">
+        update role set name=#{name},roletag=#{roletag} where id=#{id}
+    </update>
+</mapper>

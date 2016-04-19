@@ -8,6 +8,26 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>com-infosource-common</artifactId>
-
-
+    <dependencies>
+        <dependency>
+            <groupId>com.infosource</groupId>
+            <artifactId>com-infosource-dao</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+    </dependencies>
 </project>
