@@ -1,5 +1,6 @@
 package com.infosource.service.org.impl;
 
+import com.infosource.common.sourcegenerate.util.IdWorker;
 import com.infosource.dao.org.TestUserDao;
 import com.infosource.domain.common.PageVo;
 import com.infosource.domain.org.User;
@@ -15,6 +16,7 @@ import java.util.List;
  */
 @Service
 public class TestUserServiceImpl implements TestUserService {
+
     @Resource
     private TestUserDao testUserDao;
     @Override
@@ -61,5 +63,10 @@ public class TestUserServiceImpl implements TestUserService {
     @Override
     public int deleteById(Long id) {
         return testUserDao.deleteById(id);
+    }
+
+    @Override
+    public int update(User user) {
+        return testUserDao.update(user);
     }
 }

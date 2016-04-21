@@ -24,6 +24,7 @@ public interface TestUserDao {
     public int count(UserQuery userQuery);
 
     public int deleteById(Long id);
+    public int update(User user);
 
 
 }

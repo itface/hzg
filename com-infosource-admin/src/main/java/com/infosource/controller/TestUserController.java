@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -37,20 +38,20 @@ public class TestUserController {
         model.put("pageVo", pageVo);
         return "/test/user";
     }
-    /*@ResponseBody
+    @ResponseBody
     @RequestMapping("/findbyid")
-    public CustomsTO findbyid(long id)throws Exception{
-        CustomsTO customsTO = customsPlatformService.findbyid(id);
-        return customsTO;
+    public User findbyid(long id)throws Exception{
+        User user = testUserService.findById(id);
+        return user;
     }
     @ResponseBody
     @RequestMapping("/remove")
-    public void remove(long id)throws Exception{
-        customsPlatformService.deletebyidInTransaction(id);
+    public int remove(long id)throws Exception{
+        return testUserService.deleteById(id);
     }
     @ResponseBody
     @RequestMapping("/edit")
-    public String save(HttpServletRequest request, CustomsTO customsTO, BindingResult result)throws Exception{
+    public String save(HttpServletRequest request, @Valid User user, BindingResult result)throws Exception{
         StringBuilder stringBuilder = new StringBuilder();
         if (result.hasErrors()) {
             List<ObjectError> list = result.getAllErrors();
@@ -58,18 +59,16 @@ public class TestUserController {
                 stringBuilder.append(objectError.getDefaultMessage()).append("<br>");
             }
         }else{
-            String pin = LoginContext.getLoginContext().getPin();
-            customsTO.setOperatorId(pin);
-            String msg = null;
-            if (customsTO.getId() < 1) {
-                msg = customsPlatformService.save(customsTO);
+            int effectrow = 0;
+            if (user.getId() < 1) {
+                effectrow = testUserService.save(user);
             }else{
-                msg = customsPlatformService.update(customsTO);
+                effectrow = testUserService.update(user);
             }
-            if (!StringUtils.isEmpty(msg)) {
-                stringBuilder.append(msg);
+            if (effectrow<1) {
+                stringBuilder.append("操作失败") ;
             }
         }
         return stringBuilder.toString();
-    }*/
+    }
 }

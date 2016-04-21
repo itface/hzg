@@ -10,7 +10,7 @@
 			<link rel="stylesheet" href="/static/bootstrap/3.3.5/css/bootstrap.min.css">
 			<link rel="stylesheet" href="/static/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 			<link rel="stylesheet" href="/static/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
-			<link rel="stylesheet" href="/static/common.css">
+			<link rel="stylesheet" href="/static/css/common.css">
 			<script src="/static/jquery/1.11.3/jquery.min.js"></script>
 			<script src="/static/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 			<script src="/static/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
@@ -134,7 +134,7 @@
 							<input id="userid" name="userid" class="form-control" type="text"/>
 						</div>
 					</div>
-					<div><input type="hidden" name='id' id='id'/></div>
+					<div><input type="hidden" name='id' id='id' value="0"/></div>
 					<div class="row">
 						<div class="col-xs-12">
 							<div class="alert alert-danger center-block error-msg" style="display:none"></div>
@@ -186,7 +186,7 @@
 				currentId = 0;
 				var edithtml = jQuery('#editScriptTemplate').html();
 				showModal(edithtml,'新增','取消','保存',edit);
-				initEditFormData();
+                setEditFormData(null);
 				initEditFormEvent();
 			})
 
@@ -288,23 +288,6 @@
 				jQuery('#userid').val('');
 				jQuery('#id').val(0);
 			}
-
-			/*function setEditFormData(data){
-				if(data){
-					jQuery('#name').val(data.name);
-					jQuery('#userid').val(data.userid);
-					jQuery('#id').val(data.id);
-				}
-			}
-
-			function setReadFormData(data){
-				initEditFormData();
-				if(data){
-					jQuery('.read-form-name').html(data.name);
-					jQuery('.read-form-userid').html(data.userid);
-				}
-			}*/
-
             function setEditFormData(data){
                 $("form[id='editForm']")[0].reset();
                 if (data) {

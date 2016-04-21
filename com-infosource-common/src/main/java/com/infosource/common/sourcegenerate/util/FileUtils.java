@@ -11,9 +11,10 @@ import java.net.URL;
  */
 public class FileUtils {
 
-    public static  String getFilePath(Class cls,String dirname){
+    public static  String getFilePath(String domainname){
         String path = null;
         try {
+            Class cls = FileUtils.class;
             URL base = cls.getResource("");
             int start=0,end=0;
             Package pack=cls.getPackage();
@@ -29,7 +30,7 @@ public class FileUtils {
                 end=packName.indexOf(".",start);
             }
             sb.append("../");
-            File file = new File(base.getFile(),sb.toString()+"sourcegen/"+dirname);
+            File file = new File(base.getFile(),sb.toString()+"sourcegen/"+domainname);
             if (!file.exists()) {
                 file.mkdirs();
             }

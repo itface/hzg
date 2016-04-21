@@ -1,7 +1,6 @@
 package com.infosource.service.org;
 
 
-
 import com.infosource.domain.common.PageVo;
 import com.infosource.domain.org.User;
 import com.infosource.domain.org.query.UserQuery;
@@ -26,4 +25,5 @@ public interface TestUserService {
     public int count(UserQuery userQuery);
 
     public int deleteById(Long id);
+    public int update(User user);
 }

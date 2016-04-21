@@ -2,20 +2,12 @@ package com.infosource.common.sourcegenerate.util;
 
 /**
  * id大并发量生成算法 snowflake 的 java版本
- * Copy by wangdi on 16-2-26.
+ *
  */
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * @author zhujuan
- *         From: https://github.com/twitter/snowflake
- *         An object that generates IDs.
- *         This is broken into a separate class in case
- *         we ever want to support multiple worker threads
- *         per process
- */
 public class IdWorker {
 
     protected static final Logger LOG = LoggerFactory.getLogger(IdWorker.class);
@@ -84,5 +76,12 @@ public class IdWorker {
 
     protected long timeGen() {
         return System.currentTimeMillis();
+    }
+
+    public static void main(String[] args) {
+        for (int i=0;i<10;i++) {
+            IdWorker idWorker = new IdWorker(2,2);
+            System.out.println(idWorker.nextId());
+        }
     }
 }

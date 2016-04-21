@@ -17,9 +17,10 @@ public class MyBatisXmlUtil {
     private final String BREAK_ROW = "\n";
     private final String TAB_1 = "\t";
 
-    public String makeXml(Class domainClass, Class queryClass,Class daoClass, String tablename) {
+    public String makeXml(Class domainClass, Class queryClass) {
+        String tablename = domainClass.getSimpleName().toLowerCase();
         StringBuilder sb = new StringBuilder();
-        sb.append(getHeader(daoClass));
+        sb.append(getHeader(domainClass));
         sb.append(getResultMap(TAB_1,domainClass));
         sb.append(getAllQueryFields(TAB_1,domainClass));
         sb.append(getPage(TAB_1,domainClass));
@@ -36,11 +37,12 @@ public class MyBatisXmlUtil {
     }
 
 
-    private String getHeader(Class daoClass) {
+    private String getHeader(Class domainClass) {
         StringBuilder sb = new StringBuilder();
+        String daoName = domainClass.getName().replace("domain", "dao")+"Dao";
         sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>").append(BREAK_ROW);
         sb.append("<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">").append(BREAK_ROW);
-        sb.append("<mapper namespace=\"").append(daoClass.getName()).append("\">").append(BREAK_ROW);
+        sb.append("<mapper namespace=\"").append(daoName).append("\">").append(BREAK_ROW);
         return sb.toString();
     }
     private String getFoot() {
@@ -182,10 +184,12 @@ public class MyBatisXmlUtil {
         sb.append(firstTab).append("</delete>").append(BREAK_ROW);
         return sb.toString();
     }
-    public void gen(Class domainClass, Class queryClass,Class daoClass, String tablename,String dirname,String xmlname){
+    public void gen(Class domainClass, Class queryClass){
         try {
-            String path = FileUtils.getFilePath(this.getClass(),dirname);
-            String s = makeXml(domainClass,queryClass,daoClass,tablename);
+            String domainname = domainClass.getSimpleName();
+            String xmlname = domainname+"Dao.xml";
+            String path = FileUtils.getFilePath(domainname);
+            String s = makeXml(domainClass,queryClass);
             String filename = path+ File.separator+xmlname;
             FileUtils.writeFile(filename,s);
         } catch (Exception e) {
@@ -195,6 +199,6 @@ public class MyBatisXmlUtil {
     }
     public static void main(String[] args) {
         MyBatisXmlUtil myBatisXmlUtil = new MyBatisXmlUtil();
-        myBatisXmlUtil.gen(User.class, UserQuery.class, UserDao.class,"user","user","UserDao.xml");
+        myBatisXmlUtil.gen(User.class, UserQuery.class);
     }
 }

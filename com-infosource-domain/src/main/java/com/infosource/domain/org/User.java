@@ -5,12 +5,13 @@ import com.infosource.domain.anno.InputType;
 import com.infosource.domain.common.BaseDomain;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Created by wangrongtao on 15/10/13.
  */
 @FormGlobalSetting(tableCaption = "用户管理",baseurl = "/test")
-public class User extends BaseDomain implements Comparable<User>{
+public class User extends BaseDomain implements Comparable<User> {
     private long id;
     @NotBlank
     @Length(max=100)

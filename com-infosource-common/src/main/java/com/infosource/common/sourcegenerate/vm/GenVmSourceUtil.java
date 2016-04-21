@@ -61,7 +61,7 @@ public class GenVmSourceUtil {
         sb.append(secondTab).append("<link rel=\"stylesheet\" href=\"/static/bootstrap/3.3.5/css/bootstrap.min.css\">").append(BREAK_ROW);
         sb.append(secondTab).append("<link rel=\"stylesheet\" href=\"/static/bootstrap/3.3.5/css/bootstrap-theme.min.css\">").append(BREAK_ROW);
         sb.append(secondTab).append("<link rel=\"stylesheet\" href=\"/static/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css\">").append(BREAK_ROW);
-        sb.append(secondTab).append("<link rel=\"stylesheet\" href=\"/static/common.css\">").append(BREAK_ROW);
+        sb.append(secondTab).append("<link rel=\"stylesheet\" href=\"/static/css/common.css\">").append(BREAK_ROW);
         sb.append(secondTab).append("<script src=\"/static/jquery/1.11.3/jquery.min.js\"></script>").append(BREAK_ROW);
         sb.append(secondTab).append("<script src=\"/static/bootstrap/3.3.5/js/bootstrap.min.js\"></script>").append(BREAK_ROW);
         sb.append(secondTab).append("<script src=\"/static/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js\"></script>").append(BREAK_ROW);
@@ -331,8 +331,8 @@ public class GenVmSourceUtil {
         sb.append(functionSetFormData(secondTab)).append(BREAK_ROW);
         sb.append(functionHideModal(secondTab)).append(BREAK_ROW);
         sb.append(functionInitEditFormData(secondTab,fieldModelList)).append(BREAK_ROW);
-        sb.append(functionSetEditFormData(secondTab,fieldModelList)).append(BREAK_ROW);
-        sb.append(functionSetReadFormData(secondTab,fieldModelList)).append(BREAK_ROW);
+        sb.append(functionSetEditFormData(secondTab)).append(BREAK_ROW);
+        sb.append(functionSetReadFormData(secondTab)).append(BREAK_ROW);
         sb.append(firstTab).append("</script>").append(BREAK_ROW);
         return sb.toString();
     }
@@ -408,7 +408,7 @@ public class GenVmSourceUtil {
             sb.append(secondTab).append("currentId = 0;").append(BREAK_ROW);
             sb.append(secondTab).append("var edithtml = jQuery('#editScriptTemplate').html();").append(BREAK_ROW);
             sb.append(secondTab).append("showModal(edithtml,'新增','取消','保存',edit);").append(BREAK_ROW);
-            sb.append(secondTab).append("initEditFormData();").append(BREAK_ROW);
+            sb.append(secondTab).append("setEditFormData(null);").append(BREAK_ROW);
             sb.append(secondTab).append("initEditFormEvent();").append(BREAK_ROW);
         sb.append(firstTab).append("})").append(BREAK_ROW);
         return sb.toString();
@@ -554,23 +554,41 @@ public class GenVmSourceUtil {
         sb.append(firstTab).append("}").append(BREAK_ROW);
         return sb.toString();
     }
-    private String functionSetEditFormData(String firstTab,List<FieldModel> fieldModelList){
+    private String functionSetEditFormData(String firstTab){
         StringBuilder sb = new StringBuilder();
         String secondTab = firstTab+TAB_1;
         String thirdTab = secondTab+TAB_1;
+        String fourthTab = thirdTab+TAB_1;
         sb.append(firstTab).append("function setEditFormData(data){").append(BREAK_ROW);
+            sb.append(secondTab).append("$(\"form[id='editForm']\")[0].reset();").append(BREAK_ROW);
             sb.append(secondTab).append("if(data){").append(BREAK_ROW);
-            if (!CollectionUtils.isEmpty(fieldModelList)) {
-                for (FieldModel fieldModel : fieldModelList) {
-                    sb.append(thirdTab).append("jQuery('#").append(fieldModel.getId()).append("').val(data.").append(fieldModel.getId()).append(");").append(BREAK_ROW);
-                }
-            }
-                sb.append(thirdTab).append("jQuery('#id').val(data.id);").append(BREAK_ROW);
+                sb.append(thirdTab).append("for (var i in data) {").append(BREAK_ROW);
+                    sb.append(fourthTab).append("var fieldid = i;").append(BREAK_ROW);
+                    sb.append(fourthTab).append("var v = data[i];").append(BREAK_ROW);
+                    sb.append(fourthTab).append("jQuery('#'+fieldid).val(v);").append(BREAK_ROW);
+                sb.append(thirdTab).append("}").append(BREAK_ROW);
             sb.append(secondTab).append("}").append(BREAK_ROW);
         sb.append(firstTab).append("}").append(BREAK_ROW);
         return sb.toString();
     }
-    private String functionSetReadFormData(String firstTab,List<FieldModel> fieldModelList){
+    private String functionSetReadFormData(String firstTab){
+        StringBuilder sb = new StringBuilder();
+        String secondTab = firstTab+TAB_1;
+        String thirdTab = secondTab+TAB_1;
+        String fourthTab = thirdTab+TAB_1;
+        sb.append(firstTab).append("function setReadFormData(data){").append(BREAK_ROW);
+            sb.append(secondTab).append("jQuery('.read-form-field-value').html('');").append(BREAK_ROW);
+            sb.append(secondTab).append("if(data){").append(BREAK_ROW);
+                sb.append(thirdTab).append("for (var i in data) {").append(BREAK_ROW);
+                    sb.append(fourthTab).append("var fieldid = i;").append(BREAK_ROW);
+                    sb.append(fourthTab).append("var v = data[i];").append(BREAK_ROW);
+                    sb.append(fourthTab).append("jQuery('.read-form-'+fieldid).html(v);").append(BREAK_ROW);
+                sb.append(thirdTab).append("}").append(BREAK_ROW);
+            sb.append(secondTab).append("}").append(BREAK_ROW);
+        sb.append(firstTab).append("}").append(BREAK_ROW);
+        return sb.toString();
+    }
+    /*private String functionSetReadFormData(String firstTab,List<FieldModel> fieldModelList){
         StringBuilder sb = new StringBuilder();
         String secondTab = firstTab+TAB_1;
         String thirdTab = secondTab+TAB_1;
@@ -585,7 +603,7 @@ public class GenVmSourceUtil {
             sb.append(secondTab).append("}").append(BREAK_ROW);
         sb.append(firstTab).append("}").append(BREAK_ROW);
         return sb.toString();
-    }
+    }*/
 
 
     private  List<FieldModel>  getFieldModelList(Class clazz){
@@ -618,7 +636,7 @@ public class GenVmSourceUtil {
         }
         return list;
     }
-    public String gen(Class clazz) {
+    public String genStr(Class clazz) {
         StringBuilder sb = new StringBuilder();
         FormGlobalSetting formGlobalSetting = clazz.getAnnotation(FormGlobalSetting.class)==null?null:(FormGlobalSetting)clazz.getAnnotation(FormGlobalSetting.class);
         String baseurl = "";
@@ -640,10 +658,12 @@ public class GenVmSourceUtil {
         return sb.toString();
     }
 
-    public void genVm(String vmname,String dirname){
+    public void gen(Class clazz){
         try {
-            String path = FileUtils.getFilePath(this.getClass(),dirname);
-            String s = gen(User.class);
+            String domainname = clazz.getSimpleName();
+            String vmname = domainname.toLowerCase()+".vm";
+            String path = FileUtils.getFilePath(domainname);
+            String s = genStr(clazz);
             String filename = path+File.separator+vmname;
             FileUtils.writeFile(filename,s);
         } catch (Exception e) {

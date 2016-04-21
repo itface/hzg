@@ -60,4 +60,8 @@
 	<delete id="deleteById" parameterType="long">
 		delete from  user where id = #{id}
 	</delete>
+	<update id="update" parameterType="com.infosource.domain.org.User">
+		UPDATE user SET MODIFIED=now()
+		WHERE id=#{id}
+	</update>
 </mapper>

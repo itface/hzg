@@ -11,6 +11,9 @@ public class BaseDomain implements Serializable {
     protected Date created;
     protected Date modified;
     protected String optuserid;
+    //twitter id自增
+    protected long idworkerid;
+    protected long datacenterId;
 
 
     public Date getCreated() {
