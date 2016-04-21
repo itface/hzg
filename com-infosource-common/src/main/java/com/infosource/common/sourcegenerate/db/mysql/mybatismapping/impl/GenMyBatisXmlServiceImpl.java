@@ -1,19 +1,17 @@
-package com.infosource.common.sourcegenerate.db.mysql.mybatismapping;
+package com.infosource.common.sourcegenerate.db.mysql.mybatismapping.impl;
 
-
+import com.infosource.common.sourcegenerate.db.mysql.mybatismapping.GenMyBatisXmlService;
 import com.infosource.common.sourcegenerate.util.FileUtils;
-import com.infosource.dao.org.UserDao;
-import com.infosource.domain.org.User;
-import com.infosource.domain.org.query.UserQuery;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.lang.reflect.Field;
 
 /**
- * 根据定义的bean（BasePersistenceBean的子类） 自动生成ibatis的xml工具(可以main方法打印)
- * Created by wangdi on 15-7-17.
+ * Created by wangrongtao on 16/4/21.
  */
-public class MyBatisXmlUtil {
+@Service
+public class GenMyBatisXmlServiceImpl implements GenMyBatisXmlService {
     private final String BREAK_ROW = "\n";
     private final String TAB_1 = "\t";
 
@@ -82,7 +80,7 @@ public class MyBatisXmlUtil {
         StringBuilder sb = new StringBuilder();
         String secondTab = TAB_1+firstTab;
         sb.append(firstTab).append("<sql id=\"allColumn\">").append(BREAK_ROW);
-            sb.append(secondTab).append(getSelectFields(secondTab,domainClass));
+        sb.append(secondTab).append(getSelectFields(secondTab,domainClass));
         sb.append(firstTab).append("</sql>").append(BREAK_ROW);
         return sb.toString();
     }
@@ -90,7 +88,7 @@ public class MyBatisXmlUtil {
         StringBuilder sb = new StringBuilder();
         String secondTab = TAB_1+firstTab;
         sb.append(firstTab).append("<sql id=\"page\">").append(BREAK_ROW);
-            sb.append(secondTab).append("limit #{startRow},#{pageSize}");
+        sb.append(secondTab).append("limit #{startRow},#{pageSize}");
         sb.append(firstTab).append("</sql>").append(BREAK_ROW);
         return sb.toString();
     }
@@ -107,18 +105,18 @@ public class MyBatisXmlUtil {
         String fourthTab = TAB_1+thirdTab;
         String fifthTab = TAB_1+fourthTab;
         sb.append(firstTab).append("<sql id=\"condition\">").append(BREAK_ROW);
-            sb.append(thirdTab).append("<trim prefix=\"WHERE\" prefixOverrides=\"AND | OR\">").append(BREAK_ROW);
-            Field[] fieldList = queryClass.getDeclaredFields();
-            for (Field field : fieldList) {
-                if (isInteger(field.getType()) || isLong(field.getType())) {
-                    sb.append(fourthTab).append("<if test=\"").append(field.getName()).append(" != null and ").append(field.getName()).append(">0\">").append(BREAK_ROW);
-                }else{
-                    sb.append(fourthTab).append("<if test=\"").append(field.getName()).append(" != null \">").append(BREAK_ROW);
-                }
-                    sb.append(fifthTab).append(field.getName()).append("=#{").append(field.getName()).append("}\n");
-                sb.append(fourthTab).append("</if>").append(BREAK_ROW);
+        sb.append(thirdTab).append("<trim prefix=\"WHERE\" prefixOverrides=\"AND | OR\">").append(BREAK_ROW);
+        Field[] fieldList = queryClass.getDeclaredFields();
+        for (Field field : fieldList) {
+            if (isInteger(field.getType()) || isLong(field.getType())) {
+                sb.append(fourthTab).append("<if test=\"").append(field.getName()).append(" != null and ").append(field.getName()).append(">0\">").append(BREAK_ROW);
+            }else{
+                sb.append(fourthTab).append("<if test=\"").append(field.getName()).append(" != null \">").append(BREAK_ROW);
             }
-            sb.append(thirdTab).append("</trim>").append(BREAK_ROW);
+            sb.append(fifthTab).append(field.getName()).append("=#{").append(field.getName()).append("}\n");
+            sb.append(fourthTab).append("</if>").append(BREAK_ROW);
+        }
+        sb.append(thirdTab).append("</trim>").append(BREAK_ROW);
         sb.append(firstTab).append("</sql>").append(BREAK_ROW);
         return sb.toString();
     }
@@ -128,7 +126,7 @@ public class MyBatisXmlUtil {
         StringBuilder sb = new StringBuilder();
         String secondTab = TAB_1+firstTab;
         sb.append(firstTab).append("<select id=\"findAll\" parameterType=\"").append(queryClass.getName()).append("\"  resultMap=\"ResultMap\">").append(BREAK_ROW);
-            sb.append(secondTab).append("select <include refid=\"allColumn\"/> from ").append(tablename).append(BREAK_ROW);
+        sb.append(secondTab).append("select <include refid=\"allColumn\"/> from ").append(tablename).append(BREAK_ROW);
         sb.append(firstTab).append("</select>").append(BREAK_ROW);
         return sb.toString();
     }
@@ -136,7 +134,7 @@ public class MyBatisXmlUtil {
         StringBuilder sb = new StringBuilder();
         String secondTab = TAB_1+firstTab;
         sb.append(firstTab).append("<select id=\"findById\" parameterType=\"long\"  resultMap=\"ResultMap\">").append(BREAK_ROW);
-            sb.append(secondTab).append("select <include refid=\"allColumn\"/> from ").append(tablename).append(" where id = #{id}").append(BREAK_ROW);
+        sb.append(secondTab).append("select <include refid=\"allColumn\"/> from ").append(tablename).append(" where id = #{id}").append(BREAK_ROW);
         sb.append(firstTab).append("</select>").append(BREAK_ROW);
         return sb.toString();
     }
@@ -169,8 +167,8 @@ public class MyBatisXmlUtil {
         StringBuilder sb = new StringBuilder();
         String secondTab = TAB_1+firstTab;
         sb.append(firstTab).append("<insert id=\"save\" parameterType=\"").append(domainClass.getName()).append("\">").append(BREAK_ROW);
-            sb.append(secondTab).append("insert into ").append(tablename).append("(").append(getSelectFields(secondTab,domainClass)).append(")")
-            .append(" values(").append(getSelectFieldValues(secondTab,domainClass)).append(")").append(BREAK_ROW);
+        sb.append(secondTab).append("insert into ").append(tablename).append("(").append(getSelectFields(secondTab,domainClass)).append(")")
+                .append(" values(").append(getSelectFieldValues(secondTab,domainClass)).append(")").append(BREAK_ROW);
         sb.append(firstTab).append("</insert>").append(BREAK_ROW);
         return sb.toString();
     }
@@ -194,7 +192,7 @@ public class MyBatisXmlUtil {
 
     }
     public static void main(String[] args) {
-        MyBatisXmlUtil myBatisXmlUtil = new MyBatisXmlUtil();
-        myBatisXmlUtil.gen(User.class, UserQuery.class, UserDao.class,"user","user","UserDao.xml");
+        /*MyBatisXmlUtil myBatisXmlUtil = new MyBatisXmlUtil();
+        myBatisXmlUtil.gen(User.class, UserQuery.class, UserDao.class,"user","user","UserDao.xml");*/
     }
 }

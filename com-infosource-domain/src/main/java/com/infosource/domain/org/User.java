@@ -1,5 +1,7 @@
 package com.infosource.domain.org;
 
+import com.infosource.domain.anno.FormGlobalSetting;
+import com.infosource.domain.anno.InputType;
 import com.infosource.domain.common.BaseDomain;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -7,16 +9,19 @@ import org.hibernate.validator.constraints.NotBlank;
 /**
  * Created by wangrongtao on 15/10/13.
  */
+@FormGlobalSetting(tableCaption = "用户管理",baseurl = "/test")
 public class User extends BaseDomain implements Comparable<User>{
     private long id;
     @NotBlank
     @Length(max=100)
+    @InputType(name="名称",showInList = true,showInEditForm = true,showInReadForm = true)
     private String name;
     /**
      * 手机号
      */
     @NotBlank
     @Length(max=100)
+    @InputType(name="用户id",showInList = true,showInEditForm = true,showInReadForm = true)
     private String userid;
     private String pwd;
     /**

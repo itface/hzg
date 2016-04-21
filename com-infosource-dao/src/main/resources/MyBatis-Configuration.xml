@@ -3,6 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <mappers>
+        <mapper resource="com/infosource/dao/org/TestUserDao.xml"/>
         <!--<mapper resource="com/infosource/dao/org/OrgDao.xml"/>
         <mapper resource="com/infosource/dao/org/ActionDao.xml"/>
         <mapper resource="com/infosource/dao/org/MenuDao.xml"/>

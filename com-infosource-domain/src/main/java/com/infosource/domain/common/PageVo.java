@@ -12,6 +12,7 @@ public class PageVo<T> implements Serializable {
     private int total;
     private int pagesize;
     private boolean havenext;
+    private int start;
 
     public List<T> getList() {
         return list;
@@ -51,5 +52,12 @@ public class PageVo<T> implements Serializable {
 
     public void setHavenext(boolean havenext) {
         this.havenext = havenext;
+    }
+
+    public int getStart() {
+        if (page < 1) {
+            page=1;
+        }
+        return (page-1)*pagesize+1;
     }
 }

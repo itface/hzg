@@ -10,9 +10,14 @@ public class BaseQuery extends BaseDomain{
     protected int page;
 
     public int getStartRow() {
-        return startRow;
+        if (page < 1) {
+            page=1;
+        }
+        if (pageSize < 1) {
+            pageSize=1;
+        }
+        return (page-1)*pageSize;
     }
-
     public void setStartRow(int startRow) {
         this.startRow = startRow;
     }
