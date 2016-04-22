@@ -27,12 +27,10 @@ public class TestUserController {
     private TestUserService testUserService;
 
     @RequestMapping()
-    public String view(Integer page,ModelMap model){
-        if (page == null) {
-            page=1;
+    public String view(UserQuery userQuery,ModelMap model){
+        if (userQuery.getPage() <1) {
+            userQuery.setPage(1);
         }
-        UserQuery userQuery = new UserQuery();
-        userQuery.setPage(page);
         userQuery.setPageSize(PAGE_SIZE);
         PageVo<User> pageVo =  testUserService.findListByPage(userQuery);
         model.put("pageVo", pageVo);

@@ -1,6 +1,5 @@
 package com.infosource.service.org.impl;
 
-import com.infosource.common.sourcegenerate.util.IdWorker;
 import com.infosource.dao.org.TestUserDao;
 import com.infosource.domain.common.PageVo;
 import com.infosource.domain.org.User;

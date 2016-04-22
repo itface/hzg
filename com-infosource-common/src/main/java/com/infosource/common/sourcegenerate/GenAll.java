@@ -1,7 +1,10 @@
 package com.infosource.common.sourcegenerate;
 
+import com.infosource.common.sourcegenerate.controller.ControllerGenerator;
 import com.infosource.common.sourcegenerate.dao.GenDaoSourceUtil;
 import com.infosource.common.sourcegenerate.db.mysql.mybatismapping.MyBatisXmlUtil;
+import com.infosource.common.sourcegenerate.service.GenServiceImplUtil;
+import com.infosource.common.sourcegenerate.service.GenServiceInterfaceUtil;
 import com.infosource.common.sourcegenerate.vm.GenVmSourceUtil;
 import com.infosource.domain.org.User;
 import com.infosource.domain.org.query.UserQuery;
@@ -15,9 +18,16 @@ public class GenAll {
         MyBatisXmlUtil myBatisXmlUtil = new MyBatisXmlUtil();
         GenVmSourceUtil genVmSourceUtil = new GenVmSourceUtil();
         GenDaoSourceUtil genDaoSourceUtil = new GenDaoSourceUtil();
+        GenServiceInterfaceUtil genServiceInterfaceUtil = new GenServiceInterfaceUtil();
+        GenServiceImplUtil genServiceImplUtil = new GenServiceImplUtil();
+        ControllerGenerator controllerGenerator = new ControllerGenerator();
         Class claxx = User.class;
-        myBatisXmlUtil.gen(claxx, UserQuery.class);
+        Class queryClass = UserQuery.class;
+        myBatisXmlUtil.gen(claxx, queryClass);
         genVmSourceUtil.gen(claxx);
-        genDaoSourceUtil.gen(claxx);
+        genDaoSourceUtil.gen(claxx,queryClass);
+        genServiceInterfaceUtil.gen(claxx,queryClass);
+        genServiceImplUtil.gen(claxx,queryClass);
+        controllerGenerator.gen(claxx,queryClass,"/test","/test");
     }
 }

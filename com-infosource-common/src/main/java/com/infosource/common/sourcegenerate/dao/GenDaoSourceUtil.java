@@ -16,7 +16,17 @@ public class GenDaoSourceUtil {
         StringBuilder sb = new StringBuilder();
         String packagename = clazz.getPackage().getName();
         String daoPackagename = packagename.replace("domain", "dao");
-        sb.append("package ").append(daoPackagename).append(";").append(BREAK_ROW);
+        sb.append("package ").append(daoPackagename).append(";").append(BREAK_ROW).append(BREAK_ROW);
+        return sb.toString();
+    }
+    private String getImport(Class clazz,Class queryClass){
+        StringBuilder sb = new StringBuilder();
+        sb.append("import java.util.List;").append(BREAK_ROW);
+        sb.append("import ").append(clazz.getName()).append(";").append(BREAK_ROW);
+        sb.append("import ").append(queryClass.getName()).append(";").append(BREAK_ROW);
+        sb.append(BREAK_ROW);
+        sb.append(BREAK_ROW);
+        sb.append(BREAK_ROW);
         return sb.toString();
     }
     private String getHeader(Class clazz){
@@ -46,20 +56,21 @@ public class GenDaoSourceUtil {
         sb.append("}");
         return sb.toString();
     }
-    public String genStr(Class clazz){
+    public String genStr(Class clazz,Class queryClass){
         StringBuilder sb = new StringBuilder();
         sb.append(getPackage(clazz));
+        sb.append(getImport(clazz,queryClass));
         sb.append(getHeader(clazz));
         sb.append(getContent(clazz));
         sb.append(getFooter());
         return sb.toString();
     }
-    public void gen(Class clazz){
+    public void gen(Class clazz,Class queryClass){
         try {
             String domainname = clazz.getSimpleName();
             String daoname = clazz.getSimpleName()+"Dao.java";
             String path = FileUtils.getFilePath(domainname);
-            String s = genStr(clazz);
+            String s = genStr(clazz,queryClass);
             String filename = path+ File.separator+daoname;
             FileUtils.writeFile(filename,s);
         } catch (Exception e) {
