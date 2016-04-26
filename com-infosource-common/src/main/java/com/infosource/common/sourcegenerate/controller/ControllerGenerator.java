@@ -89,6 +89,7 @@ public class ControllerGenerator {
             sb.append(secondTab).append(getQueryObjValName(clazz)).append(".setPageSize(20);").append(BREAK_ROW);
             sb.append(secondTab).append("PageVo<").append(clazz.getSimpleName()).append("> pageVo = ").append(getServiceObjName(clazz)).append(".findListByPage(").append(getQueryObjValName(clazz)).append(");").append(BREAK_ROW);
             sb.append(secondTab).append("model.put(\"pageVo\", pageVo);").append(BREAK_ROW);
+            sb.append(secondTab).append("model.put(\"queryobj\",").append((getQueryObjValName(clazz))).append(");").append(BREAK_ROW);
         sb.append(secondTab).append("return \"").append(vmpath).append("/").append(clazz.getSimpleName().toLowerCase()).append("\";").append(BREAK_ROW);
         sb.append(firstTab).append("}").append(BREAK_ROW).append(BREAK_ROW);
         return sb.toString();

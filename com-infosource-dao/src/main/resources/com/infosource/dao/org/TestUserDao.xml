@@ -22,24 +22,24 @@
 				<if test="id != null and id>0">
 					id=#{id}
 				</if>
-				<if test="name != null ">
-					name=#{name}
+				<if test="name != null and name != '' ">
+					and name=#{name}
 				</if>
-				<if test="userid != null ">
-					userid=#{userid}
+				<if test="userid != null  and userid != ''">
+					and userid=#{userid}
 				</if>
 				<if test="status != null and status>0">
-					status=#{status}
+					and status=#{status}
 				</if>
 				<if test="orgid != null and orgid>0">
-					orgid=#{orgid}
+					and orgid=#{orgid}
 				</if>
 				<if test="deptid != null and deptid>0">
-					deptid=#{deptid}
+					and deptid=#{deptid}
 				</if>
 			</trim>
 	</sql>
-	<select id="findAll" parameterType="com.infosource.domain.org.query.UserQuery"  resultMap="ResultMap">
+	<select id="findAll"  resultMap="ResultMap">
 		select <include refid="allColumn"/> from user
 	</select>
 	<select id="findById" parameterType="long"  resultMap="ResultMap">

@@ -34,6 +34,7 @@ public class TestUserController {
         userQuery.setPageSize(PAGE_SIZE);
         PageVo<User> pageVo =  testUserService.findListByPage(userQuery);
         model.put("pageVo", pageVo);
+        model.put("queryobj", userQuery);
         return "/test/user";
     }
     @ResponseBody

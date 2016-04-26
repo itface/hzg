@@ -83,6 +83,32 @@ public class GenVmSourceUtil {
         sb.append(firstTab).append("#end").append(BREAK_ROW);
         return sb.toString();
     }
+    /*<div class="caption-class">
+    <caption><h2>用户管理</h2></caption>
+    </div>
+    <form id='queryform' name='queryform'>
+    <div class="container">
+    <table class="table table-bordered table-striped table-hover common-table">
+    <tr>
+    <td><input id="name" name="name" class="form-control" type="text" placeholder="名称" value="$!queryobj.name"/></td>
+    <td><input id="userid" name="userid" class="form-control" type="text" placeholder="用户id" value="$!queryobj.userid"/></td>
+    </tr>
+    <tr>
+    <td colspan="2">
+    <input type="hidden" name="page" id="page" page="$!currentPage"/>
+    <div class="pull-right">
+    <a href="javascript:void(0);" class="btn btn-info btn-sm btn-query">
+    <span class="glyphicon glyphicon-search"></span> 查询
+            </a>
+    <a href="javascript:void(0);" class="btn btn-info btn-sm btn-query-reset">
+    <span class="glyphicon glyphicon-refresh"></span> 重置
+            </a>
+    </div>
+    </td>
+    </tr>
+    </table>
+    </div>
+    </form>*/
     private  String body(String caption,List<FieldModel> fieldModelList){
         String firstTab = TAB_2;
         String secondTab = TAB_1+firstTab;
@@ -99,12 +125,44 @@ public class GenVmSourceUtil {
         String thirteenthTab = TAB_1+twelfthTab;
         StringBuilder sb = new StringBuilder();
         sb.append(firstTab).append("<body>").append(BREAK_ROW);
+            sb.append(secondTab).append("<div class=\"caption-class\">").append(BREAK_ROW);
+                sb.append(thirdTab).append("<caption><h2>").append(caption).append("</h2></caption>").append(BREAK_ROW);
+            sb.append(secondTab).append("</div>").append(BREAK_ROW);
+            sb.append(secondTab).append("<form id='queryform' name='queryform'>").append(BREAK_ROW);
+                sb.append(thirdTab).append("<div class=\"container\">").append(BREAK_ROW);
+                    sb.append(fouthTab).append("<table class=\"table table-bordered table-striped table-hover common-table\">").append(BREAK_ROW);
+                        if (!CollectionUtils.isEmpty(fieldModelList)) {
+                            int count=2;
+                            for (FieldModel fieldModel : fieldModelList) {
+                                if (count % 2 == 0) {
+                                    sb.append(fifthTab).append("<tr>").append(BREAK_ROW);
+                                }
+                                sb.append(sixthTab).append("<td>").append(BREAK_ROW);
+                                    sb.append(seventhTab).append(inputHtml(fieldModel.getType(),fieldModel.getId())).append(BREAK_ROW);
+                                sb.append(sixthTab).append("</td>").append(BREAK_ROW);
+                                if (count % 2 == 0) {
+                                    sb.append(fifthTab).append("</tr>").append(BREAK_ROW);
+                                }
+                            }
+                        }
+                        sb.append(fifthTab).append("<tr>").append(BREAK_ROW);
+                            sb.append(sixthTab).append("<td colspan='2'>").append(BREAK_ROW);
+                                sb.append(seventhTab).append("<input type=\"hidden\" name=\"page\" id=\"page\" page=\"$!currentPage\"/>").append(BREAK_ROW);
+                                sb.append(seventhTab).append("<div class=\"pull-right\">").append(BREAK_ROW);
+                                    sb.append(eightthTab).append("<a href=\"javascript:void(0);\" class=\"btn btn-info btn-sm btn-query\"><span class=\"glyphicon glyphicon-search\"></span> 查询</a>").append(BREAK_ROW);
+                                    sb.append(eightthTab).append("<a href=\"javascript:void(0);\" class=\"btn btn-info btn-sm btn-query-reset\"><span class=\"glyphicon glyphicon-refresh\"></span> 重置</a>").append(BREAK_ROW);
+                                sb.append(seventhTab).append("</div>").append(BREAK_ROW);
+                            sb.append(sixthTab).append("</td>").append(BREAK_ROW);
+                        sb.append(fifthTab).append("</tr>").append(BREAK_ROW);
+                    sb.append(fouthTab).append("</table>").append(BREAK_ROW);
+                sb.append(thirdTab).append("</div>").append(BREAK_ROW);
+            sb.append(secondTab).append("</form>").append(BREAK_ROW);
             sb.append(secondTab).append("<form id='mainform' name='mainform'>").append(BREAK_ROW);
                 sb.append(thirdTab).append("<div class=\"container\">").append(BREAK_ROW);
                     sb.append(fouthTab).append("<div class=\"table-responsive\">").append(BREAK_ROW);
                         sb.append(fifthTab).append("<div>").append(BREAK_ROW);
                             sb.append(sixthTab).append("<table class=\"table table-bordered table-striped table-hover common-table\">").append(BREAK_ROW);
-                                sb.append(seventhTab).append("<caption><h2>").append(caption).append("</h2></caption>").append(BREAK_ROW);
+//                                sb.append(seventhTab).append("<caption><h2>").append(caption).append("</h2></caption>").append(BREAK_ROW);
                                 sb.append(seventhTab).append("<thead>").append(BREAK_ROW);
                                     sb.append(eightthTab).append("<tr>").append(BREAK_ROW);
                                         sb.append(ninthTab).append("<th>").append(BREAK_ROW);
@@ -330,7 +388,7 @@ public class GenVmSourceUtil {
         sb.append(functionEdit(secondTab)).append(BREAK_ROW);
         sb.append(functionSetFormData(secondTab)).append(BREAK_ROW);
         sb.append(functionHideModal(secondTab)).append(BREAK_ROW);
-        sb.append(functionInitEditFormData(secondTab,fieldModelList)).append(BREAK_ROW);
+//        sb.append(functionInitEditFormData(secondTab,fieldModelList)).append(BREAK_ROW);
         sb.append(functionSetEditFormData(secondTab)).append(BREAK_ROW);
         sb.append(functionSetReadFormData(secondTab)).append(BREAK_ROW);
         sb.append(firstTab).append("</script>").append(BREAK_ROW);
@@ -341,7 +399,17 @@ public class GenVmSourceUtil {
         String secondTab = firstTab+TAB_1;
         sb.append(firstTab).append("var currentId;").append(BREAK_ROW);
         sb.append(firstTab).append("var locationUrl = '").append(baseurl).append("';").append(BREAK_ROW);
-        sb.append(firstTab).append("jQuery('#pager').my_page({url:locationUrl,currentPage:'$!currentPage',formname:'mainform',total:'$!total',pageSize:'$!pagesize'});\n").append(BREAK_ROW);
+        sb.append(firstTab).append("jQuery('#pager').my_page({url:locationUrl,currentPage:'$!currentPage',formname:'mainform',total:'$!total',pageSize:'$!pagesize',queryform:'queryform'});").append(BREAK_ROW);
+        sb.append(firstTab).append("$('.btn-query').click(function(e){").append(BREAK_ROW);
+            sb.append(secondTab).append("$('#page').val(1);").append(BREAK_ROW);
+            sb.append(secondTab).append("$(\"form[name='queryform']\").attr(\"action\", locationUrl);").append(BREAK_ROW);
+            sb.append(secondTab).append("$(\"form[name='queryform']\").attr(\"method\", 'POST');").append(BREAK_ROW);
+            sb.append(secondTab).append("$(\"form[name='queryform']\").submit();").append(BREAK_ROW);
+        sb.append(firstTab).append("}").append(BREAK_ROW);
+        sb.append(firstTab).append("$('.btn-query-reset').click(function(e){").append(BREAK_ROW);
+            sb.append(secondTab).append("$('#page').val(1);").append(BREAK_ROW);
+            sb.append(secondTab).append("$(\"form[id='queryform']\")[0].reset();").append(BREAK_ROW);
+        sb.append(firstTab).append("}").append(BREAK_ROW);
         /*sb.append(firstTab).append("$('.datetimepicker-class').datetimepicker({").append(BREAK_ROW);
             sb.append(secondTab).append("format: 'yyyy-mm-dd',").append(BREAK_ROW);
             sb.append(secondTab).append("minView: \"month\",").append(BREAK_ROW);
@@ -565,7 +633,7 @@ public class GenVmSourceUtil {
                 sb.append(thirdTab).append("for (var i in data) {").append(BREAK_ROW);
                     sb.append(fourthTab).append("var fieldid = i;").append(BREAK_ROW);
                     sb.append(fourthTab).append("var v = data[i];").append(BREAK_ROW);
-                    sb.append(fourthTab).append("jQuery('#'+fieldid).val(v);").append(BREAK_ROW);
+                    sb.append(fourthTab).append("jQuery('#'+fieldid,$(\"form[id='editForm']\")).val(v);").append(BREAK_ROW);
                 sb.append(thirdTab).append("}").append(BREAK_ROW);
             sb.append(secondTab).append("}").append(BREAK_ROW);
         sb.append(firstTab).append("}").append(BREAK_ROW);

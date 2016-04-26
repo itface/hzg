@@ -15,14 +15,14 @@ public class User extends BaseDomain implements Comparable<User> {
     private long id;
     @NotBlank
     @Length(max=100)
-    @InputType(name="名称",showInList = true,showInEditForm = true,showInReadForm = true)
+    @InputType(name="名称",queryAble = true,showInList = true,showInEditForm = true,showInReadForm = true)
     private String name;
     /**
      * 手机号
      */
     @NotBlank
     @Length(max=100)
-    @InputType(name="用户id",showInList = true,showInEditForm = true,showInReadForm = true)
+    @InputType(name="用户id",queryAble = true,showInList = true,showInEditForm = true,showInReadForm = true)
     private String userid;
     private String pwd;
     /**

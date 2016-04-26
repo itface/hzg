@@ -115,9 +115,9 @@ public class MyBatisXmlUtil {
                 if (isInteger(field.getType()) || isLong(field.getType())) {
                     sb.append(fourthTab).append("<if test=\"").append(field.getName()).append(" != null and ").append(field.getName()).append(">0\">").append(BREAK_ROW);
                 }else{
-                    sb.append(fourthTab).append("<if test=\"").append(field.getName()).append(" != null \">").append(BREAK_ROW);
+                    sb.append(fourthTab).append("<if test=\"").append(field.getName()).append(" != null and ").append(field.getName()).append(" != ''\">").append(BREAK_ROW);
                 }
-                    sb.append(fifthTab).append(field.getName()).append("=#{").append(field.getName()).append("}\n");
+                    sb.append(fifthTab).append(" and ").append(field.getName()).append("=#{").append(field.getName()).append("}\n");
                 sb.append(fourthTab).append("</if>").append(BREAK_ROW);
             }
             sb.append(thirdTab).append("</trim>").append(BREAK_ROW);

@@ -25,12 +25,37 @@
 			#set($startIndex = $!pageVo.getStart())
 		#end
 		<body>
+			<div class="caption-class">
+				<caption><h2>用户管理</h2></caption>
+			</div>
+            <form id='queryform' name='queryform'>
+				<div class="container">
+					<table class="table table-bordered table-striped table-hover common-table">
+						<tr>
+							<td><input id="name" name="name" class="form-control" type="text" placeholder="名称" value="$!queryobj.name"/></td>
+							<td><input id="userid" name="userid" class="form-control" type="text" placeholder="用户id" value="$!queryobj.userid"/></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<input type="hidden" name="page" id="page" page="$!currentPage"/>
+								<div class="pull-right">
+                                    <a href="javascript:void(0);" class="btn btn-info btn-sm btn-query">
+                                        <span class="glyphicon glyphicon-search"></span> 查询
+                                    </a>
+									<a href="javascript:void(0);" class="btn btn-info btn-sm btn-query-reset">
+                                        <span class="glyphicon glyphicon-refresh"></span> 重置
+                                    </a>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</form>
 			<form id='mainform' name='mainform'>
 				<div class="container">
 					<div class="table-responsive">
 						<div>
 							<table class="table table-bordered table-striped table-hover common-table">
-								<caption><h2>用户管理</h2></caption>
 								<thead>
 									<tr>
 										<th>
@@ -146,9 +171,18 @@
 		<script>
 			var currentId;
 			var locationUrl = '/test';
-			jQuery('#pager').my_page({url:locationUrl,currentPage:'$!currentPage',formname:'mainform',total:'$!total',pageSize:'$!pagesize'});
+			jQuery('#pager').my_page({url:locationUrl,currentPage:'$!currentPage',formname:'mainform',total:'$!total',pageSize:'$!pagesize',queryform:'queryform'});
 
-
+            $('.btn-query').click(function(e){
+                $('#page').val(1);
+                $("form[name='queryform']").attr("action", locationUrl);
+                $("form[name='queryform']").attr("method", 'POST');
+                $("form[name='queryform']").submit();
+            });
+			$('.btn-query-reset').click(function(e){
+                $("form[id='queryform']")[0].reset();
+                $('#page').val(1);
+            });
 			function initEditFormEvent(){
 				$('.datetimepicker-class').datetimepicker({
 					format: 'yyyy-mm-dd',
@@ -282,19 +316,13 @@
 			function hideModal(){
 				jQuery('#myModal').modal('hide');
 			}
-
-			function initEditFormData(){
-				jQuery('#name').val('');
-				jQuery('#userid').val('');
-				jQuery('#id').val(0);
-			}
             function setEditFormData(data){
                 $("form[id='editForm']")[0].reset();
                 if (data) {
                     for (var i in data) {
                         var fieldid = i;
                         var v = data[i];
-                        jQuery('#'+fieldid).val(v);
+                        jQuery('#'+fieldid,$("form[id='editForm']")).val(v);
                     }
                 }
             }
