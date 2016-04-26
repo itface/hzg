@@ -132,15 +132,19 @@ public class GenVmSourceUtil {
                 sb.append(thirdTab).append("<div class=\"container\">").append(BREAK_ROW);
                     sb.append(fouthTab).append("<table class=\"table table-bordered table-striped table-hover common-table\">").append(BREAK_ROW);
                         if (!CollectionUtils.isEmpty(fieldModelList)) {
-                            int count=2;
-                            for (FieldModel fieldModel : fieldModelList) {
-                                if (count % 2 == 0) {
+                            for (int i = 0; i < fieldModelList.size(); ) {
+                                FieldModel fieldModel = fieldModelList.get(i++);
+                                if (fieldModel != null) {
                                     sb.append(fifthTab).append("<tr>").append(BREAK_ROW);
-                                }
-                                sb.append(sixthTab).append("<td>").append(BREAK_ROW);
-                                    sb.append(seventhTab).append(inputHtml(fieldModel.getType(),fieldModel.getId())).append(BREAK_ROW);
-                                sb.append(sixthTab).append("</td>").append(BREAK_ROW);
-                                if (count % 2 == 0) {
+                                        sb.append(sixthTab).append("<td>").append(BREAK_ROW);
+                                            sb.append(seventhTab).append(inputHtml(fieldModel.getType(), fieldModel.getId())).append(BREAK_ROW);
+                                        sb.append(sixthTab).append("</td>").append(BREAK_ROW);
+                                    FieldModel fieldModel2 = fieldModelList.get(i++);
+                                    if (fieldModel2 != null) {
+                                        sb.append(sixthTab).append("<td>").append(BREAK_ROW);
+                                            sb.append(seventhTab).append(inputHtml(fieldModel2.getType(), fieldModel2.getId())).append(BREAK_ROW);
+                                        sb.append(sixthTab).append("</td>").append(BREAK_ROW);
+                                    }
                                     sb.append(fifthTab).append("</tr>").append(BREAK_ROW);
                                 }
                             }
@@ -271,7 +275,7 @@ public class GenVmSourceUtil {
                                 sb.append(fifthTab).append("<label class='read-form-field'>").append(fieldModel.getName()).append(":</label>").append(BREAK_ROW);
                             sb.append(fouthTab).append("</div>").append(BREAK_ROW);
                             sb.append(fouthTab).append("<div class=\"col-xs-4\">").append(BREAK_ROW);
-                                sb.append(fifthTab).append("<span class='read-form-"+fieldModel.getId()+" line-word-break read-form-field'></span>").append(BREAK_ROW);
+                                sb.append(fifthTab).append("<span class='read-form-"+fieldModel.getId()+" line-word-break read-form-field read-form-field-value'></span>").append(BREAK_ROW);
                             sb.append(fouthTab).append("</div>").append(BREAK_ROW);
                             if (i<length) {
                                 fieldModel = fieldModelList.get(i++);
@@ -345,7 +349,7 @@ public class GenVmSourceUtil {
                             sb.append(fouthTab).append("</div>").append(BREAK_ROW);
                         }
                     }
-                    sb.append(fouthTab).append("<div><input type=\"hidden\" name='id' id='id'/></div>").append(BREAK_ROW);
+                    sb.append(fouthTab).append("<div><input type=\"hidden\" name='id' id='id'value='0'/></div>").append(BREAK_ROW);
                     sb.append(fouthTab).append("<div class=\"row\">").append(BREAK_ROW);
                         sb.append(fifthTab).append("<div class=\"col-xs-12\">").append(BREAK_ROW);
                             sb.append(sixthTab).append("<div class=\"alert alert-danger center-block error-msg\" style=\"display:none\"></div>").append(BREAK_ROW);
@@ -609,7 +613,7 @@ public class GenVmSourceUtil {
         sb.append(firstTab).append("}").append(BREAK_ROW);
         return sb.toString();
     }
-    private String functionInitEditFormData(String firstTab,List<FieldModel> fieldModelList){
+    /*private String functionInitEditFormData(String firstTab,List<FieldModel> fieldModelList){
         StringBuilder sb = new StringBuilder();
         String secondTab = firstTab+TAB_1;
         sb.append(firstTab).append("function initEditFormData(){").append(BREAK_ROW);
@@ -621,7 +625,7 @@ public class GenVmSourceUtil {
         sb.append(secondTab).append("jQuery('#id').val(0);").append(BREAK_ROW);
         sb.append(firstTab).append("}").append(BREAK_ROW);
         return sb.toString();
-    }
+    }*/
     private String functionSetEditFormData(String firstTab){
         StringBuilder sb = new StringBuilder();
         String secondTab = firstTab+TAB_1;

@@ -31,7 +31,8 @@ public class MyBatisXmlUtil {
         sb.append(getFindListByPage(TAB_1,queryClass,tablename));
         sb.append(getCount(TAB_1,queryClass,tablename));
         sb.append(getSave(TAB_1,domainClass,tablename));
-        sb.append(getDeleteById(TAB_1,queryClass,tablename) );
+        sb.append(getDeleteById(TAB_1,tablename));
+        sb.append(getUpdate(TAB_1,domainClass,tablename));
         sb.append(getFoot());
         return sb.toString();
     }
@@ -176,12 +177,24 @@ public class MyBatisXmlUtil {
         sb.append(firstTab).append("</insert>").append(BREAK_ROW);
         return sb.toString();
     }
-    private String getDeleteById(String firstTab,Class queryClass,String tablename) {
+    private String getDeleteById(String firstTab,String tablename) {
         StringBuilder sb = new StringBuilder();
         String secondTab = TAB_1+firstTab;
         sb.append(firstTab).append("<delete id=\"deleteById\" parameterType=\"long\">").append(BREAK_ROW);
-        sb.append(secondTab).append("delete from  ").append(tablename).append(" where id = #{id}").append(BREAK_ROW);
+            sb.append(secondTab).append("delete from  ").append(tablename).append(" where id = #{id}").append(BREAK_ROW);
         sb.append(firstTab).append("</delete>").append(BREAK_ROW);
+        return sb.toString();
+    }
+    /*<update id="update" parameterType="com.infosource.domain.org.User">
+    UPDATE user SET MODIFIED=now()
+    WHERE id=#{id}
+    </update>*/
+    private String getUpdate(String firstTab,Class domainClass,String tablename) {
+        StringBuilder sb = new StringBuilder();
+        String secondTab = TAB_1+firstTab;
+        sb.append(firstTab).append("<update id=\"update\" parameterType=\"").append(domainClass).append("\">").append(BREAK_ROW);
+            sb.append(secondTab).append("update  ").append(tablename).append(" set modified=now() where id = #{id}").append(BREAK_ROW);
+        sb.append(firstTab).append("</update>").append(BREAK_ROW);
         return sb.toString();
     }
     public void gen(Class domainClass, Class queryClass){
