@@ -57,6 +57,7 @@ public class GenServiceImplUtil {
         String daopackagename = clazz.getName().replace("domain","dao")+"Dao";
         sb.append("import com.infosource.domain.common.PageVo;").append(BREAK_ROW);
         sb.append("import javax.annotation.Resource;").append(BREAK_ROW);
+        sb.append("import org.springframework.stereotype.Service;").append(BREAK_ROW);
         sb.append("import java.util.List;").append(BREAK_ROW);
         sb.append("import ").append(clazz.getName()).append(";").append(BREAK_ROW);
         sb.append("import ").append(queryClass.getName()).append(";").append(BREAK_ROW);
@@ -69,6 +70,7 @@ public class GenServiceImplUtil {
     }
     private String getHeader(Class clazz){
         StringBuilder sb = new StringBuilder();
+        sb.append("@Service");
         sb.append("public class ").append(getServiceImplName(clazz)).append(" implements ").append(getServiceName(clazz)).append("{").append(BREAK_ROW).append(BREAK_ROW);
         return sb.toString();
     }
