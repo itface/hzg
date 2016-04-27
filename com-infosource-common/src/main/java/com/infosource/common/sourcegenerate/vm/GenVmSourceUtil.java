@@ -722,15 +722,15 @@ public class GenVmSourceUtil {
         }
         return list;
     }
-    public String genStr(Class clazz) {
+    public String genStr(Class clazz,String baseurl,String caption) {
         StringBuilder sb = new StringBuilder();
-        FormGlobalSetting formGlobalSetting = clazz.getAnnotation(FormGlobalSetting.class)==null?null:(FormGlobalSetting)clazz.getAnnotation(FormGlobalSetting.class);
+        /*FormGlobalSetting formGlobalSetting = clazz.getAnnotation(FormGlobalSetting.class)==null?null:(FormGlobalSetting)clazz.getAnnotation(FormGlobalSetting.class);
         String baseurl = "";
         String caption = "";
         if (formGlobalSetting!=null) {
             baseurl = formGlobalSetting.baseurl();
             caption = formGlobalSetting.tableCaption();
-        }
+        }*/
         List<FieldModel> list = getFieldModelList(clazz);
         sb.append(htmlHeader());
         sb.append(head());
@@ -744,12 +744,12 @@ public class GenVmSourceUtil {
         return sb.toString();
     }
 
-    public void gen(Class clazz){
+    public void gen(Class clazz,String baseurl,String caption){
         try {
             String domainname = clazz.getSimpleName();
             String vmname = domainname.toLowerCase()+".vm";
             String path = FileUtils.getFilePath(domainname);
-            String s = genStr(clazz);
+            String s = genStr(clazz,baseurl,caption);
             String filename = path+File.separator+vmname;
             FileUtils.writeFile(filename,s);
         } catch (Exception e) {

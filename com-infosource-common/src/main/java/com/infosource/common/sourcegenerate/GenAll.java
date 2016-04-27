@@ -23,11 +23,13 @@ public class GenAll {
         ControllerGenerator controllerGenerator = new ControllerGenerator();
         Class claxx = User.class;
         Class queryClass = UserQuery.class;
+        String baseurl = "/test";
+        String caption = "用户管理";
         myBatisXmlUtil.gen(claxx, queryClass);
-        genVmSourceUtil.gen(claxx);
+        genVmSourceUtil.gen(claxx,baseurl,caption);
         genDaoSourceUtil.gen(claxx,queryClass);
         genServiceInterfaceUtil.gen(claxx,queryClass);
         genServiceImplUtil.gen(claxx,queryClass);
-        controllerGenerator.gen(claxx,queryClass,"/test","/test");
+        controllerGenerator.gen(claxx,queryClass,baseurl,"/test");
     }
 }
