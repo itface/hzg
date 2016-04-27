@@ -134,15 +134,18 @@ public class GenVmSourceUtil {
                         if (!CollectionUtils.isEmpty(fieldModelList)) {
                             for (int i = 0; i < fieldModelList.size(); ) {
                                 FieldModel fieldModel = fieldModelList.get(i++);
-                                if (fieldModel != null) {
+                                if (fieldModel != null && fieldModel.isQueryAble()) {
                                     sb.append(fifthTab).append("<tr>").append(BREAK_ROW);
-                                        sb.append(sixthTab).append("<td>").append(BREAK_ROW);
-                                            sb.append(seventhTab).append(inputHtml(fieldModel.getType(), fieldModel.getId(),"field-query")).append(BREAK_ROW);
-                                        sb.append(sixthTab).append("</td>").append(BREAK_ROW);
+                                    sb.append(sixthTab).append("<td>").append(BREAK_ROW);
+                                    sb.append(seventhTab).append(inputHtml(fieldModel.getType(), fieldModel.getId(), "field-query")).append(BREAK_ROW);
+                                    sb.append(sixthTab).append("</td>").append(BREAK_ROW);
                                     FieldModel fieldModel2 = fieldModelList.get(i++);
-                                    if (fieldModel2 != null) {
+                                    while (fieldModel2 == null || !fieldModel2.isQueryAble()) {
+                                        fieldModel2 = fieldModelList.get(i++);
+                                    }
+                                    if (fieldModel2 != null && fieldModel2.isQueryAble()) {
                                         sb.append(sixthTab).append("<td>").append(BREAK_ROW);
-                                            sb.append(seventhTab).append(inputHtml(fieldModel2.getType(), fieldModel2.getId(),"field-query")).append(BREAK_ROW);
+                                        sb.append(seventhTab).append(inputHtml(fieldModel2.getType(), fieldModel2.getId(), "field-query")).append(BREAK_ROW);
                                         sb.append(sixthTab).append("</td>").append(BREAK_ROW);
                                     }
                                     sb.append(fifthTab).append("</tr>").append(BREAK_ROW);
