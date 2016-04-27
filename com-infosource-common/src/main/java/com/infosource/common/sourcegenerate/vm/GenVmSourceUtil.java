@@ -137,12 +137,12 @@ public class GenVmSourceUtil {
                                 if (fieldModel != null) {
                                     sb.append(fifthTab).append("<tr>").append(BREAK_ROW);
                                         sb.append(sixthTab).append("<td>").append(BREAK_ROW);
-                                            sb.append(seventhTab).append(inputHtml(fieldModel.getType(), fieldModel.getId())).append(BREAK_ROW);
+                                            sb.append(seventhTab).append(inputHtml(fieldModel.getType(), fieldModel.getId(),"field-query")).append(BREAK_ROW);
                                         sb.append(sixthTab).append("</td>").append(BREAK_ROW);
                                     FieldModel fieldModel2 = fieldModelList.get(i++);
                                     if (fieldModel2 != null) {
                                         sb.append(sixthTab).append("<td>").append(BREAK_ROW);
-                                            sb.append(seventhTab).append(inputHtml(fieldModel2.getType(), fieldModel2.getId())).append(BREAK_ROW);
+                                            sb.append(seventhTab).append(inputHtml(fieldModel2.getType(), fieldModel2.getId(),"field-query")).append(BREAK_ROW);
                                         sb.append(sixthTab).append("</td>").append(BREAK_ROW);
                                     }
                                     sb.append(fifthTab).append("</tr>").append(BREAK_ROW);
@@ -328,7 +328,7 @@ public class GenVmSourceUtil {
                                     sb.append(sixthTab).append("<label>").append(fieldModel.getName()).append("</label>").append(BREAK_ROW);
                                 sb.append(fifthTab).append("</div>").append(BREAK_ROW);
                                 sb.append(fifthTab).append("<div class=\"col-xs-4\">").append(BREAK_ROW);
-                                    sb.append(sixthTab).append(inputHtml(fieldModel.getType(),fieldModel.getId())).append(BREAK_ROW);
+                                    sb.append(sixthTab).append(inputHtml(fieldModel.getType(),fieldModel.getId(),null)).append(BREAK_ROW);
                                 sb.append(fifthTab).append("</div>").append(BREAK_ROW);
                                 if (i<length) {
                                     fieldModel = fieldModelList.get(i++);
@@ -340,7 +340,7 @@ public class GenVmSourceUtil {
                                         sb.append(sixthTab).append("<label>").append(fieldModel.getName()).append("</label>").append(BREAK_ROW);
                                         sb.append(fifthTab).append("</div>").append(BREAK_ROW);
                                         sb.append(fifthTab).append("<div class=\"col-xs-4\">").append(BREAK_ROW);
-                                        sb.append(sixthTab).append(inputHtml(fieldModel.getType(),fieldModel.getId())).append(BREAK_ROW);
+                                        sb.append(sixthTab).append(inputHtml(fieldModel.getType(),fieldModel.getId(),null)).append(BREAK_ROW);
                                         sb.append(fifthTab).append("</div>").append(BREAK_ROW);
                                     }
                                 }
@@ -360,18 +360,18 @@ public class GenVmSourceUtil {
         sb.append(firstTab).append("</script>").append(BREAK_ROW);
         return sb.toString();
     }
-    private String inputHtml(String fieldType,String fieldId){
+    private String inputHtml(String fieldType,String fieldId,String fieldClass){
         String inputHtml = "";
         if ("text".equals(fieldType)) {
-            inputHtml = "<input id=\""+fieldId+"\" name=\""+fieldId+"\" class=\"form-control\" type=\"text\"/>";
+            inputHtml = "<input id=\""+fieldId+"\" name=\""+fieldId+"\" class=\"form-control "+(fieldClass==null?"":"field-query")+"\" type=\"text\"/>";
         } else if ("select".equals(fieldType)) {
-            inputHtml = "<select id=\""+fieldId+"\" name=\""+fieldId+"\" class=\"form-control\"></select>";
+            inputHtml = "<select id=\""+fieldId+"\" name=\""+fieldId+"\" class=\"form-control "+(fieldClass==null?"":"field-query")+"\"></select>";
         }else if ("textarea".equals(fieldType)) {
-            inputHtml = "<textarea id=\""+fieldId+"\" name=\""+fieldId+"\" rows=\"6\" class=\"form-control\"></textarea>";
+            inputHtml = "<textarea id=\""+fieldId+"\" name=\""+fieldId+"\" rows=\"6\" class=\"form-control "+(fieldClass==null?"":"field-query")+"\"></textarea>";
         }else if ("hidden".equals(fieldType)) {
             inputHtml = "<input type=\"hidden\" name='"+fieldId+"' id='"+fieldId+"'/>";
         }else if ("date".equals(fieldType)) {
-            inputHtml = "<input id=\""+fieldId+"\" name=\""+fieldId+"\" class=\"form-control datetimepicker-class\" type=\"text\" readonly/>";
+            inputHtml = "<input id=\""+fieldId+"\" name=\""+fieldId+"\" class=\"form-control datetimepicker-class "+(fieldClass==null?"":"field-query")+"\" type=\"text\" readonly/>";
         }
         return inputHtml;
     }
@@ -381,6 +381,7 @@ public class GenVmSourceUtil {
         String secondTab = firstTab+TAB_1;
         sb.append(firstTab).append("<script>").append(BREAK_ROW);
         sb.append(globalJsVariable(secondTab,baseurl)).append(BREAK_ROW);
+        sb.append(functionInitDatetimepicker(secondTab)).append(BREAK_ROW);
         sb.append(functionInitEditFormEvent(secondTab)).append(BREAK_ROW);
         sb.append(functionDelEvent(secondTab)).append(BREAK_ROW);
         sb.append(functionUpdateEvent(secondTab)).append(BREAK_ROW);
@@ -404,6 +405,7 @@ public class GenVmSourceUtil {
         sb.append(firstTab).append("var currentId;").append(BREAK_ROW);
         sb.append(firstTab).append("var locationUrl = '").append(baseurl).append("';").append(BREAK_ROW);
         sb.append(firstTab).append("jQuery('#pager').my_page({url:locationUrl,currentPage:'$!currentPage',formname:'mainform',total:'$!total',pageSize:'$!pagesize',queryform:'queryform'});").append(BREAK_ROW);
+        sb.append(firstTab).append("initDatetimepicker();").append(BREAK_ROW);
         sb.append(firstTab).append("$('.btn-query').click(function(e){").append(BREAK_ROW);
             sb.append(secondTab).append("$('#page').val(1);").append(BREAK_ROW);
             sb.append(secondTab).append("$(\"form[name='queryform']\").attr(\"action\", locationUrl);").append(BREAK_ROW);
@@ -411,8 +413,8 @@ public class GenVmSourceUtil {
             sb.append(secondTab).append("$(\"form[name='queryform']\").submit();").append(BREAK_ROW);
         sb.append(firstTab).append("}").append(BREAK_ROW);
         sb.append(firstTab).append("$('.btn-query-reset').click(function(e){").append(BREAK_ROW);
+            sb.append(secondTab).append("$(\".field-query\",\"form[id='queryform']\").val('');").append(BREAK_ROW);
             sb.append(secondTab).append("$('#page').val(1);").append(BREAK_ROW);
-            sb.append(secondTab).append("$(\"form[id='queryform']\")[0].reset();").append(BREAK_ROW);
         sb.append(firstTab).append("}").append(BREAK_ROW);
         /*sb.append(firstTab).append("$('.datetimepicker-class').datetimepicker({").append(BREAK_ROW);
             sb.append(secondTab).append("format: 'yyyy-mm-dd',").append(BREAK_ROW);
@@ -422,17 +424,26 @@ public class GenVmSourceUtil {
         sb.append(firstTab).append("});").append(BREAK_ROW);*/
         return sb.toString();
     }
-    private String functionInitEditFormEvent(String firstTab){
+    private String functionInitDatetimepicker(String firstTab){
         StringBuilder sb = new StringBuilder();
         String secondTab = firstTab+TAB_1;
         String thirdTab = secondTab+TAB_1;
-        sb.append(firstTab).append("function initEditFormEvent(){").append(BREAK_ROW);
+        sb.append(firstTab).append("function initDatetimepicker(){").append(BREAK_ROW);
             sb.append(secondTab).append("$('.datetimepicker-class').datetimepicker({").append(BREAK_ROW);
                 sb.append(thirdTab).append("format: 'yyyy-mm-dd',").append(BREAK_ROW);
                 sb.append(thirdTab).append("minView: \"month\",").append(BREAK_ROW);
                 sb.append(thirdTab).append("language: 'zh-CN',").append(BREAK_ROW);
                 sb.append(thirdTab).append("autoclose:true").append(BREAK_ROW);
             sb.append(secondTab).append("});").append(BREAK_ROW);
+        sb.append(firstTab).append("}").append(BREAK_ROW);
+        return sb.toString();
+    }
+    private String functionInitEditFormEvent(String firstTab){
+        StringBuilder sb = new StringBuilder();
+        String secondTab = firstTab+TAB_1;
+        String thirdTab = secondTab+TAB_1;
+        sb.append(firstTab).append("function initEditFormEvent(){").append(BREAK_ROW);
+            sb.append(secondTab).append("initDatetimepicker();").append(BREAK_ROW);
         sb.append(firstTab).append("}").append(BREAK_ROW);
         return sb.toString();
     }

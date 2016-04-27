@@ -32,8 +32,8 @@
 				<div class="container">
 					<table class="table table-bordered table-striped table-hover common-table">
 						<tr>
-							<td><input id="name" name="name" class="form-control" type="text" placeholder="名称" value="$!queryobj.name"/></td>
-							<td><input id="userid" name="userid" class="form-control" type="text" placeholder="用户id" value="$!queryobj.userid"/></td>
+							<td><input id="name" name="name" class="form-control field-query" type="text" placeholder="名称" value="$!queryobj.name"/></td>
+							<td><input id="userid" name="userid" class="form-control field-query" type="text" placeholder="用户id" value="$!queryobj.userid"/></td>
 						</tr>
 						<tr>
 							<td colspan="2">
@@ -180,7 +180,7 @@
                 $("form[name='queryform']").submit();
             });
 			$('.btn-query-reset').click(function(e){
-                $("form[id='queryform']")[0].reset();
+                $(".field-query","form[id='queryform']").val('');
                 $('#page').val(1);
             });
 			function initEditFormEvent(){
